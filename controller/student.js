@@ -20,9 +20,9 @@ const createStudent = async (req, res, next) => {
       message: "Please provide subjects",
     });
   }
-  const subjectArray = subjects.split(",").map((item) => item.trim());
 
-  if (subjectArray.length < 1) {
+
+  if (subjects.length < 1) {
     return res.status(400).json({
       message: "Please provide at least one subject",
     });
@@ -39,7 +39,7 @@ const createStudent = async (req, res, next) => {
     });
 
     // Create subjects and associate them with the student
-    for (const subjectName of subjectArray) {
+    for (const subjectName of subjects) {
       // Check if the subject already exists
       let existingSubject = await Subject.findOne({ name: subjectName });
 
@@ -72,9 +72,8 @@ const studentLogin = async (req, res, next) => {
   }
 
   try {
-    console.log('token');
     const {token} = await Student.matchPasswordGenerateToken(username,password);
-    return res.status(200).json({token});
+    return res.status(200).json({token,username});
 } catch (error) {
     return res.status(400).json({
         message: 'Invalid username or password',
@@ -108,7 +107,6 @@ const getStudent = async (req, res, next) => {
 };
 
 const getAllStudents = async (req, res, next) => {
-  console.log('students');
   const students = await Student.find({}).populate("subjects");
   return res.status(200).json({ students });
   // try {

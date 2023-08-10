@@ -16,7 +16,7 @@ const adminSchema = new Schema({
         enum:['admin'],
         default: 'admin',
     }
-})
+},{timestamps: true})
 
 adminSchema.pre('save', async function(next){
     if(!this.isModified('password')){

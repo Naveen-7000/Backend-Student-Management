@@ -9,7 +9,7 @@ const studentSchema = new Schema({
   username: String,
   password: String,
   subjects: [{ type: Schema.Types.ObjectId, ref: 'subject' }]
-});
+},{timestamps: true});
 
 studentSchema.pre('save', async function(next){
   if(!this.isModified('password')){
@@ -23,9 +23,9 @@ studentSchema.pre('save', async function(next){
 studentSchema.static('matchPasswordGenerateToken',async function(username,password){
   const student = await this.findOne({username});
   if(!student){
-      throw new Error('Invalid username');
+    throw new Error('Invalid username');
   }
-  const isMatch = await bcrypt.compare(password,student.password);
+  const isMatch = password === student.password ? true : false;
 
   if(!isMatch){
       throw new Error('Invalid password');
@@ -35,7 +35,6 @@ studentSchema.static('matchPasswordGenerateToken',async function(username,passwo
       expiresIn: 60 * 60 * 24 * 30,
   });
 
-  console.log(token,'model');
   return {token};
 })
 const Student = model('student', studentSchema);

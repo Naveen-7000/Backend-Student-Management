@@ -6,6 +6,6 @@ const router = express.Router();
 // admin can create a new students account
 router.post('/login',studentLogin);
 router.get('/getme/:username',getStudent);
-router.get('/attendance',getAttendance)
+router.get('/attendance/:id',getAttendance)
 
 module.exports = router;

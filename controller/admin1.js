@@ -9,7 +9,7 @@ const adminLogin = async(req,res)=>{
     }
     try {
         const {token,role} = await Admin.matchPasswordGenerateToken(username,password);
-        return res.status(200).json({token,role});
+        return res.status(200).json({token,role,username});
     } catch (error) {
         return res.status(400).json({
             message: 'Invalid username or password',

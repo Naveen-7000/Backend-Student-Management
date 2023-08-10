@@ -3,15 +3,17 @@ const express = require('express');
 const connectDB = require('./utils/db');
 const adminRoutes = require('./routes/admin');
 const studentRoutes = require('./routes/student');
+const cors = require('cors')
 
 const app = express();
 
 connectDB();
 
 // configuration
+app.use(cors());
 // i want to accept form data and json data
 app.use(express.urlencoded({extended:true}));
-// app.use(express.json());
+app.use(express.json());
 
 
 // routes
